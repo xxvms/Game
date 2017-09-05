@@ -36,7 +36,7 @@ public:
 
     // function to print map
     void print_base();
-    void print_victory();
+    std::ostream& print_victory();
 
 };
 

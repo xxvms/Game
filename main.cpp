@@ -22,11 +22,10 @@ int steps(){
     } else return 5;
 
 };
+
 int main() {
 
     Game_map first;
-    first.print_victory();
-    std::cout << "test";
 
     first.print_base();
     first.find_player();
@@ -73,7 +72,7 @@ int main() {
                 std::cout << "Not going :( select valid choice!" << '\n';
                 break;
         }
-    } while (ten_moves < 50 );
+    } while (true);
 
     return 0;
 }

@@ -9,7 +9,7 @@
                 "=======================================================================================================",
                 "|   X ###                   #####                      ###########                                    |",
                 "|                        ###########    ###########                                    ####           |",
-                "|   ########             ###########   #############        #        #######        #########         |",
+                "|    ######             ###########   #############        #        #######        #########          |",
                 "|   ########             ###########    ###########        ###         #######        ######          |",
                 "|   ####                    #####         #######        ######          #######                      |",
                 "|                   #####                   ###                            ########     #######       |",
@@ -26,7 +26,7 @@
                 "|   #########                 ######                       #######                   #####            |",
                 "|                    #######   #########          ######                #########                     |",
                 "|############                                 ############              #####                         |",
-                "|############                 ##############                 #####                       #####   @    |",
+                "|############                 ##############                 #####                       #####    @   |",
                 "=======================================================================================================",
         };
 }
@@ -35,7 +35,9 @@
 void Game_map::Game_victory() {
     victory = {
             "===========================================================================================================",
-            " Congratulations the mighty warrior you have managed to escape from the dungeons!"
+            "              Congratulations the mighty warrior you have managed to escape from the dungeons!             ",
+            "===========================================================================================================",
+
     };
 }
 
@@ -74,16 +76,10 @@ void Game_map::print_base(){
     }
 }
 
-void Game_map::print_victory(){
+std::ostream& Game_map::print_victory(){
 
-    for (auto& line : victory){
-        for(auto& c : line) {
-            std::cout << rang::style::bold<< rang::style::blink << rang::fgB::green << rang::style::reset << get_color_for(c) << c <<
-                      rang::style::reset;
-        }
-        std::cout << '\n';
-    }
-}
+    return std::cout << rang::style::bold<< rang::style::crossed << "you have won!!!" << rang::style::reset;
+ }
 
 // function that allow to find location of the player on the map, variable i allows to find row and result refers to column
 Game_map::Coordinates Game_map::find_player() { // keep an eye on return type it have Game_map:: !!!!!
@@ -95,7 +91,6 @@ Game_map::Coordinates Game_map::find_player() { // keep an eye on return type it
         if (result < std::end(row))
         {
             y = (result - row.cbegin());
-//            std::cout << "THIS-> " << map[x][y] << "<-This " << '\n';
             return {x, y}; // x is column and y is row
         }
         x++;
@@ -116,9 +111,11 @@ void Game_map::player_moving(enum Cmove_direction direction, int steps){
         case Cmove_direction::up :
             system("clear");
             while (steps-- > 0){
-                if(map[coord.x - 1][coord.y] == ' ' || map[coord.x - 1][coord.y] == '.' || map[coord.x - 1][coord.y] == 'X'){
+                if(map[coord.x - 1][coord.y] == ' ' || map[coord.x - 1][coord.y] == '.'){
                     map[coord.x - 1][coord.y] = map[coord.x][coord.y];
                     map[coord.x][coord.y] = '.';
+                } else if ( map[coord.x - 1][coord.y] == 'X'){
+                    print_victory();
                 }
                 coord = find_player();
             }
@@ -126,33 +123,36 @@ void Game_map::player_moving(enum Cmove_direction direction, int steps){
             break;
         case Cmove_direction::down :
             while(steps-- > 0) {
-                if (map[coord.x + 1][coord.y] == ' ' || map[coord.x + 1][coord.y] == '.' || map[coord.x + 1][coord.y] == 'X' ){
+                if (map[coord.x + 1][coord.y] == ' ' || map[coord.x + 1][coord.y] == '.' ){
                     map[coord.x + 1][coord.y] = map[coord.x][coord.y];
                     map[coord.x][coord.y] = '.';
+                } else if (map[coord.x + 1][coord.y] == 'X'){
+                    print_victory();
                 }
-                system("clear");
                 print_base();
                 coord = find_player();
             }
             break;
         case Cmove_direction::right :
             while (steps-- >0){
-                if (map[coord.x][coord.y + 1] == ' '|| map[coord.x][coord.y + 1] == '.' || map[coord.x][coord.y + 1] == 'X'){
+                if (map[coord.x][coord.y + 1] == ' '|| map[coord.x][coord.y + 1] == '.'){
                     map[coord.x][coord.y + 1] = map[coord.x][coord.y];
                     map[coord.x][coord.y] = '.';
+                } else if(map[coord.x][coord.y + 1] == 'X'){
+                    print_victory();
                 }
-                system("clear");
                 print_base();
                 coord = find_player();
             }
             break;
         case Cmove_direction::left :
             while (steps-- > 0){
-                if (map[coord.x][coord.y - 1] == ' '|| map[coord.x][coord.y - 1] == '.' || map[coord.x][coord.y + 1] == 'X'){
+                if (map[coord.x][coord.y - 1] == ' '|| map[coord.x][coord.y - 1] == '.' ){
                     map[coord.x][coord.y - 1] = map[coord.x][coord.y];
                     map[coord.x][coord.y] = '.';
+                } else if (map[coord.x][coord.y + 1] == 'X'){
+                    print_victory();
                 }
-                system("clear");
                 print_base();
                 coord = find_player();
             }
