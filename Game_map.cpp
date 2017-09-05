@@ -9,7 +9,7 @@
                 "=======================================================================================================",
                 "|   X ###                   #####                      ###########                                    |",
                 "|                        ###########    ###########                                    ####           |",
-                "|    ######             ###########   #############        #        #######        #########          |",
+                "|    @######            ###########   #############        #        #######        #########          |",
                 "|   ########             ###########    ###########        ###         #######        ######          |",
                 "|   ####                    #####         #######        ######          #######                      |",
                 "|                   #####                   ###                            ########     #######       |",
@@ -26,7 +26,7 @@
                 "|   #########                 ######                       #######                   #####            |",
                 "|                    #######   #########          ######                #########                     |",
                 "|############                                 ############              #####                         |",
-                "|############                 ##############                 #####                       #####    @   |",
+                "|############                 ##############                 #####                       #####        |",
                 "=======================================================================================================",
         };
 }
@@ -97,7 +97,7 @@ Game_map::Coordinates Game_map::find_player() { // keep an eye on return type it
     }
 }
 
-void Game_map::player_moving(enum Cmove_direction direction, int steps){
+bool Game_map::player_moving(enum Cmove_direction direction, int steps){
 
     // using coord to perform one search to get value for x & y, this is better then:
     // size_t x = find_way().x; size_t y = find_way().y; in this line I am preforming search twice
@@ -120,6 +120,7 @@ void Game_map::player_moving(enum Cmove_direction direction, int steps){
                 coord = find_player();
             }
             print_base();
+            return false;
             break;
         case Cmove_direction::down :
             while(steps-- > 0) {
@@ -132,6 +133,7 @@ void Game_map::player_moving(enum Cmove_direction direction, int steps){
                 print_base();
                 coord = find_player();
             }
+            return false;
             break;
         case Cmove_direction::right :
             while (steps-- >0){
@@ -144,6 +146,7 @@ void Game_map::player_moving(enum Cmove_direction direction, int steps){
                 print_base();
                 coord = find_player();
             }
+            return true;
             break;
         case Cmove_direction::left :
             while (steps-- > 0){
@@ -156,6 +159,7 @@ void Game_map::player_moving(enum Cmove_direction direction, int steps){
                 print_base();
                 coord = find_player();
             }
+            return true;
             break;
     }
 }
