@@ -10,17 +10,20 @@
 #include <string>
 #include <algorithm>
 #include "Cmove_direction.h"
+#include "rang.hpp"
 
 
 
 class Game_map{
 private:
     std::vector<std::string> map;
+    std::vector<std::string> victory;
 
 public:
 
     // default constructor printing map
     Game_map();
+    void Game_victory();
 
     // variables that will be used to find location of the player on map
     struct  Coordinates  { size_t x, y; };
@@ -33,6 +36,7 @@ public:
 
     // function to print map
     void print_base();
+    void print_victory();
 
 };
 
