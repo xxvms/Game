@@ -30,8 +30,6 @@ int main() {
     first.print_base();
     first.find_player();
 
-    bool game = true;
-
     do {
         std::cout << "Please provide direction (up/down/right/left): ";
         std::string choice;
@@ -43,35 +41,35 @@ int main() {
                 Cmove_direction direction_up;
                 direction_up = static_cast<Cmove_direction>(0);
                 std::cout << "Going Up " << '\n';
-                game = first.player_moving(direction_up, steps());
+                first.player_moving(direction_up, steps());
                 break;
 
             case 2:
                 std::cout << "Going Down" << '\n';
                 Cmove_direction direction_down;
                 direction_down= static_cast<Cmove_direction>(1);
-                game = first.player_moving(direction_down, steps());
+                first.player_moving(direction_down, steps());
                 break;
 
             case 3:
                 std::cout << "Going Right" << '\n';
                 Cmove_direction direction_right;
                 direction_right = static_cast<Cmove_direction>(2);
-                game = first.player_moving(direction_right, steps());
+                first.player_moving(direction_right, steps());
                 break;
 
             case 4:
                 std::cout << "Going Left" << '\n';
                 Cmove_direction direction_left;
                 direction_left = static_cast<Cmove_direction>(3);
-                game = first.player_moving(direction_left, steps());
+                first.player_moving(direction_left, steps());
                 break;
 
             default:
                 std::cout << "Not going :( select valid choice!" << '\n';
                 break;
         }
-    } while (game);
+    } while (!first.print_victory() == 1);
 
     return 0;
 

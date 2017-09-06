@@ -18,7 +18,6 @@ class Game_map{
 private:
     std::vector<std::string> map;
     std::vector<std::string> victory;
-    int end_of_game = 0;
 
 public:
 
@@ -33,11 +32,11 @@ public:
     Coordinates find_player();
 
     // executing user move after move has been verified and its valid
-    bool player_moving(enum Cmove_direction, int steps);
+    void player_moving(enum Cmove_direction, int steps);
 
     // function to print map
     void print_base();
-    std::ostream& print_victory();
+    bool print_victory();
 
 };
 

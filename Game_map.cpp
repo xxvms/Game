@@ -76,9 +76,10 @@ void Game_map::print_base(){
     }
 }
 
-std::ostream& Game_map::print_victory(){
+bool Game_map::print_victory(){
 
-    return std::cout << rang::style::bold<< rang::style::crossed << "you have won!!!" << rang::style::reset;
+    std::cout << rang::style::bold<< rang::style::crossed << "you have won!!!" << rang::style::reset;
+    return false;
  }
 
 // function that allow to find location of the player on the map, variable i allows to find row and result refers to column
@@ -97,7 +98,7 @@ Game_map::Coordinates Game_map::find_player() { // keep an eye on return type it
     }
 }
 
-bool Game_map::player_moving(enum Cmove_direction direction, int steps){
+void Game_map::player_moving(enum Cmove_direction direction, int steps){
 
     // using coord to perform one search to get value for x & y, this is better then:
     // size_t x = find_way().x; size_t y = find_way().y; in this line I am preforming search twice
@@ -120,7 +121,6 @@ bool Game_map::player_moving(enum Cmove_direction direction, int steps){
                 coord = find_player();
             }
             print_base();
-            return false;
             break;
         case Cmove_direction::down :
             while(steps-- > 0) {
@@ -133,7 +133,6 @@ bool Game_map::player_moving(enum Cmove_direction direction, int steps){
                 print_base();
                 coord = find_player();
             }
-            return false;
             break;
         case Cmove_direction::right :
             while (steps-- >0){
@@ -146,20 +145,18 @@ bool Game_map::player_moving(enum Cmove_direction direction, int steps){
                 print_base();
                 coord = find_player();
             }
-            return true;
             break;
         case Cmove_direction::left :
             while (steps-- > 0){
                 if (map[coord.x][coord.y - 1] == ' '|| map[coord.x][coord.y - 1] == '.' ){
                     map[coord.x][coord.y - 1] = map[coord.x][coord.y];
                     map[coord.x][coord.y] = '.';
-                } else if (map[coord.x][coord.y + 1] == 'X'){
+                } else if (map[coord.x][coord.y - 1] == 'X'){
                     print_victory();
                 }
                 print_base();
                 coord = find_player();
             }
-            return true;
             break;
     }
 }
