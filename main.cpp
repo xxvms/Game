@@ -37,39 +37,47 @@ int main() {
 
         switch (menu(choice)) {
 
-            case 1:
+            case 1:{
+                std::cout << "Going Up " << '\n';
                 Cmove_direction direction_up;
                 direction_up = static_cast<Cmove_direction>(0);
-                std::cout << "Going Up " << '\n';
-                first.player_moving(direction_up, steps());
+                auto new_position = first.new_position(direction_up, steps());
+                first.player_moving(direction_up, steps(), first.find_player(), new_position);
                 break;
+            }
 
-            case 2:
+            case 2:{
                 std::cout << "Going Down" << '\n';
                 Cmove_direction direction_down;
                 direction_down= static_cast<Cmove_direction>(1);
-                first.player_moving(direction_down, steps());
+                auto new_position = first.new_position(direction_down, steps());
+                first.player_moving(direction_down, steps(), first.find_player(), new_position);
                 break;
+            }
 
-            case 3:
+            case 3:{
                 std::cout << "Going Right" << '\n';
                 Cmove_direction direction_right;
                 direction_right = static_cast<Cmove_direction>(2);
-                first.player_moving(direction_right, steps());
+                auto new_position = first.new_position(direction_right, steps());
+                first.player_moving(direction_right,  steps(), first.find_player(), new_position);
                 break;
+            }
 
-            case 4:
+            case 4:{
                 std::cout << "Going Left" << '\n';
                 Cmove_direction direction_left;
                 direction_left = static_cast<Cmove_direction>(3);
-                first.player_moving(direction_left, steps());
+                auto new_position = first.new_position(direction_left, steps());
+                first.player_moving(direction_left, steps(), first.find_player(), new_position);
                 break;
+            }
 
             default:
                 std::cout << "Not going :( select valid choice!" << '\n';
                 break;
         }
-    } while (!first.print_victory() == 1);
+    } while (true); //!first.print_victory() == 1);
 
     return 0;
 

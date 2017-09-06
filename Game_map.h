@@ -31,12 +31,18 @@ public:
     // function that allow to find location of the player on the map, variable i allows to find row and result refers to column
     Coordinates find_player();
 
+    // function that provides coordinates for new move
+    Coordinates new_position(enum Cmove_direction direction, int steps);
+
+    // function to validate move
+    bool check_move(enum Cmove_direction direction, int steps, Game_map::Coordinates current_xy, Game_map::Coordinates new_xy);
+
     // executing user move after move has been verified and its valid
-    void player_moving(enum Cmove_direction, int steps);
+    void player_moving(enum Cmove_direction, int steps, Game_map::Coordinates current_position, Game_map::Coordinates new_position);
 
     // function to print map
     void print_base();
-    bool print_victory();
+    void print_victory();
 
 };
 

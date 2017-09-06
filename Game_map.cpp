@@ -35,12 +35,12 @@
 void Game_map::Game_victory() {
     victory = {
             "===========================================================================================================",
-            "              Congratulations the mighty warrior you have managed to escape from the dungeons!             ",
+            "*      #################################################################################                  *",
             "===========================================================================================================",
 
     };
+    // Congratulations the mighty warrior you have managed to escape from the dungeons!
 }
-
 rang::fg get_color_for(char c){
     switch (c){
         case 'X':
@@ -76,10 +76,16 @@ void Game_map::print_base(){
     }
 }
 
-bool Game_map::print_victory(){
+void Game_map::print_victory(){
 
-    std::cout << rang::style::bold<< rang::style::crossed << "you have won!!!" << rang::style::reset;
-    return false;
+    for (auto& line : victory){
+        for (auto& c: line){
+            std::cout << rang::bg::red << rang::fgB::green << rang::style::reset << get_color_for(c) << c << rang::style::reset;
+        }
+        std::cout << '\n';
+    }
+    //std::cout << rang::style::bold<< rang::style::crossed << "you have won!!!" << rang::style::reset;
+    //return false;
  }
 
 // function that allow to find location of the player on the map, variable i allows to find row and result refers to column
@@ -97,8 +103,9 @@ Game_map::Coordinates Game_map::find_player() { // keep an eye on return type it
         x++;
     }
 }
+// function that provides coordinates for new move
 
-void Game_map::player_moving(enum Cmove_direction direction, int steps){
+Game_map::Coordinates Game_map::new_position(enum Cmove_direction direction, int steps) {
 
     // using coord to perform one search to get value for x & y, this is better then:
     // size_t x = find_way().x; size_t y = find_way().y; in this line I am preforming search twice
@@ -107,56 +114,97 @@ void Game_map::player_moving(enum Cmove_direction direction, int steps){
     size_t x = coord.x;
     size_t y = coord.y;
 
+
     switch (direction){
 
         case Cmove_direction::up :
             system("clear");
             while (steps-- > 0){
-                if(map[coord.x - 1][coord.y] == ' ' || map[coord.x - 1][coord.y] == '.'){
-                    map[coord.x - 1][coord.y] = map[coord.x][coord.y];
-                    map[coord.x][coord.y] = '.';
-                } else if ( map[coord.x - 1][coord.y] == 'X'){
-                    print_victory();
-                }
-                coord = find_player();
+                return {x - 1,y};
+            }
+            break;
+        case Cmove_direction::down :
+            while(steps-- > 0) {
+                return {x + 1, y};
+            }
+            break;
+        case Cmove_direction::right :
+            while (steps-- >0){
+                    return {x, y + 1};
+            }
+            break;
+        case Cmove_direction::left :
+            while (steps-- > 0){
+                    return {x, y - 1};
+            }
+            break;
+    }
+}
+
+bool Game_map::check_move(enum Cmove_direction direction, int steps, Game_map::Coordinates current_xy,
+                          Game_map::Coordinates new_xy) {
+    switch (direction){
+
+        case Cmove_direction::up :
+            system("clear");
+            while (steps-- > 0) {
+                return map[new_xy.x][new_xy.y] == ' ' || map[new_xy.x][new_xy.y] == '.';
+            }
+            break;
+        case Cmove_direction::down :
+            while(steps-- > 0) {
+                return map[new_xy.x][new_xy.y] == ' ' || map[new_xy.x][new_xy.y] == '.';
+            }
+            break;
+        case Cmove_direction::right :
+            while (steps-- >0){
+                return map[new_xy.x][new_xy.y] == ' ' || map[new_xy.x][new_xy.y] == '.';
+            }
+            break;
+        case Cmove_direction::left :
+            while (steps-- > 0){
+                return map[new_xy.x][new_xy.y] == ' ' || map[new_xy.x][new_xy.y] == '.';
+            }
+            break;
+    }
+
+    return false;
+}
+void Game_map::player_moving(enum Cmove_direction direction, int steps, Game_map::Coordinates find_player, Game_map::Coordinates new_position){
+
+
+    switch (direction){
+
+        case Cmove_direction::up :
+            system("clear");
+            while (steps-- > 0){
+                map[new_position.x][new_position.y] = map[find_player.x][find_player.y];
+                map[find_player.x -1 ][find_player.y] = '.';
             }
             print_base();
             break;
         case Cmove_direction::down :
             while(steps-- > 0) {
-                if (map[coord.x + 1][coord.y] == ' ' || map[coord.x + 1][coord.y] == '.' ){
-                    map[coord.x + 1][coord.y] = map[coord.x][coord.y];
-                    map[coord.x][coord.y] = '.';
-                } else if (map[coord.x + 1][coord.y] == 'X'){
-                    print_victory();
-                }
-                print_base();
-                coord = find_player();
+                map[new_position.x][new_position.y] = map[find_player.x][find_player.y];
+                map[find_player.x + 1][find_player.y] = '.';
             }
+            print_base();
             break;
         case Cmove_direction::right :
             while (steps-- >0){
-                if (map[coord.x][coord.y + 1] == ' '|| map[coord.x][coord.y + 1] == '.'){
-                    map[coord.x][coord.y + 1] = map[coord.x][coord.y];
-                    map[coord.x][coord.y] = '.';
-                } else if(map[coord.x][coord.y + 1] == 'X'){
-                    print_victory();
-                }
-                print_base();
-                coord = find_player();
+                map[new_position.x][new_position.y] = map[find_player.x][find_player.y];
+                map[find_player.x][find_player.y + 1] = '.';
             }
+            print_base();
             break;
         case Cmove_direction::left :
             while (steps-- > 0){
-                if (map[coord.x][coord.y - 1] == ' '|| map[coord.x][coord.y - 1] == '.' ){
-                    map[coord.x][coord.y - 1] = map[coord.x][coord.y];
-                    map[coord.x][coord.y] = '.';
-                } else if (map[coord.x][coord.y - 1] == 'X'){
-                    print_victory();
-                }
-                print_base();
-                coord = find_player();
+                map[new_position.x][new_position.y] = map[find_player.x][find_player.y];
+                map[find_player.x][find_player.y - 1] = '.';
             }
+            print_base();
             break;
     }
 }
+
+
