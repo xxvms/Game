@@ -41,8 +41,8 @@ int main() {
                 std::cout << "Going Up " << '\n';
                 Cmove_direction direction_up;
                 direction_up = static_cast<Cmove_direction>(0);
-                auto new_position = first.new_position(direction_up, steps());
-                first.player_moving(direction_up, steps(), first.find_player(), new_position);
+                auto steps_to_take = steps();
+                first.move_player(direction_up, steps_to_take);
                 break;
             }
 
@@ -50,8 +50,8 @@ int main() {
                 std::cout << "Going Down" << '\n';
                 Cmove_direction direction_down;
                 direction_down= static_cast<Cmove_direction>(1);
-                auto new_position = first.new_position(direction_down, steps());
-                first.player_moving(direction_down, steps(), first.find_player(), new_position);
+                auto steps_to_take = steps();
+                first.move_player(direction_down, steps_to_take);
                 break;
             }
 
@@ -59,8 +59,8 @@ int main() {
                 std::cout << "Going Right" << '\n';
                 Cmove_direction direction_right;
                 direction_right = static_cast<Cmove_direction>(2);
-                auto new_position = first.new_position(direction_right, steps());
-                first.player_moving(direction_right,  steps(), first.find_player(), new_position);
+                auto steps_to_take = steps();
+                first.move_player(direction_right, steps_to_take);
                 break;
             }
 
@@ -68,8 +68,8 @@ int main() {
                 std::cout << "Going Left" << '\n';
                 Cmove_direction direction_left;
                 direction_left = static_cast<Cmove_direction>(3);
-                auto new_position = first.new_position(direction_left, steps());
-                first.player_moving(direction_left, steps(), first.find_player(), new_position);
+                auto steps_to_take = steps();
+                first.move_player(direction_left, steps_to_take);
                 break;
             }
 

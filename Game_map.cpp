@@ -9,7 +9,7 @@
                 "=======================================================================================================",
                 "|   X ###                   #####                      ###########                                    |",
                 "|                        ###########    ###########                                    ####           |",
-                "|    @######            ###########   #############        #        #######        #########          |",
+                "|    ######             ###########   #############        #        #######        #########          |",
                 "|   ########             ###########    ###########        ###         #######        ######          |",
                 "|   ####                    #####         #######        ######          #######                      |",
                 "|                   #####                   ###                            ########     #######       |",
@@ -22,7 +22,7 @@
                 "|########                             ####       ######          #########           ######           |",
                 "|                ######               ###      ######             #######               ######        |",
                 "|   #########            ########            #############                                            |",
-                "|   #########            ########                   #####    #############                #####       |",
+                "|   #########    @        ########                  #####    #############                #####       |",
                 "|   #########                 ######                       #######                   #####            |",
                 "|                    #######   #########          ######                #########                     |",
                 "|############                                 ############              #####                         |",
@@ -35,7 +35,7 @@
 void Game_map::Game_victory() {
     victory = {
             "===========================================================================================================",
-            "*      #################################################################################                  *",
+            "*           #################################################################################             *",
             "===========================================================================================================",
 
     };
@@ -89,7 +89,7 @@ void Game_map::print_victory(){
  }
 
 // function that allow to find location of the player on the map, variable i allows to find row and result refers to column
-Game_map::Coordinates Game_map::find_player() { // keep an eye on return type it have Game_map:: !!!!!
+    Game_map::Coordinates Game_map::find_player() { // keep an eye on return type it have Game_map:: !!!!!
     const char player = '@';
     size_t x = 0;
     size_t y = 0;
@@ -105,105 +105,44 @@ Game_map::Coordinates Game_map::find_player() { // keep an eye on return type it
 }
 // function that provides coordinates for new move
 
-Game_map::Coordinates Game_map::new_position(enum Cmove_direction direction, int steps) {
+Game_map::Coordinates Game_map::next_position(Coordinates from, Cmove_direction direction) {
 
     // using coord to perform one search to get value for x & y, this is better then:
     // size_t x = find_way().x; size_t y = find_way().y; in this line I am preforming search twice
-
-    auto coord = find_player();
-    size_t x = coord.x;
-    size_t y = coord.y;
-
+    auto x = from.x;
+    auto y = from.y;
 
     switch (direction){
 
         case Cmove_direction::up :
-            system("clear");
-            while (steps-- > 0){
-                return {x - 1,y};
-            }
-            break;
+            return {x - 1,y};
+           //break;
         case Cmove_direction::down :
-            while(steps-- > 0) {
-                return {x + 1, y};
-            }
-            break;
+            return {x + 1, y};
+           //break;
         case Cmove_direction::right :
-            while (steps-- >0){
-                    return {x, y + 1};
-            }
-            break;
+            return {x, y + 1};
+           //break;
         case Cmove_direction::left :
-            while (steps-- > 0){
-                    return {x, y - 1};
-            }
-            break;
+            return {x, y - 1};
+            //break;
     }
 }
 
-bool Game_map::check_move(enum Cmove_direction direction, int steps, Game_map::Coordinates current_xy,
-                          Game_map::Coordinates new_xy) {
-    switch (direction){
-
-        case Cmove_direction::up :
-            system("clear");
-            while (steps-- > 0) {
-                return map[new_xy.x][new_xy.y] == ' ' || map[new_xy.x][new_xy.y] == '.';
-            }
-            break;
-        case Cmove_direction::down :
-            while(steps-- > 0) {
-                return map[new_xy.x][new_xy.y] == ' ' || map[new_xy.x][new_xy.y] == '.';
-            }
-            break;
-        case Cmove_direction::right :
-            while (steps-- >0){
-                return map[new_xy.x][new_xy.y] == ' ' || map[new_xy.x][new_xy.y] == '.';
-            }
-            break;
-        case Cmove_direction::left :
-            while (steps-- > 0){
-                return map[new_xy.x][new_xy.y] == ' ' || map[new_xy.x][new_xy.y] == '.';
-            }
-            break;
-    }
-
-    return false;
+bool Game_map::is_valid_move(Game_map::Coordinates to) {
+    return map[to.x][to.y] == ' ' || map[to.x][to.y] == '.';
 }
-void Game_map::player_moving(enum Cmove_direction direction, int steps, Game_map::Coordinates find_player, Game_map::Coordinates new_position){
-
-
-    switch (direction){
-
-        case Cmove_direction::up :
-            system("clear");
-            while (steps-- > 0){
-                map[new_position.x][new_position.y] = map[find_player.x][find_player.y];
-                map[find_player.x -1 ][find_player.y] = '.';
-            }
-            print_base();
-            break;
-        case Cmove_direction::down :
-            while(steps-- > 0) {
-                map[new_position.x][new_position.y] = map[find_player.x][find_player.y];
-                map[find_player.x + 1][find_player.y] = '.';
-            }
-            print_base();
-            break;
-        case Cmove_direction::right :
-            while (steps-- >0){
-                map[new_position.x][new_position.y] = map[find_player.x][find_player.y];
-                map[find_player.x][find_player.y + 1] = '.';
-            }
-            print_base();
-            break;
-        case Cmove_direction::left :
-            while (steps-- > 0){
-                map[new_position.x][new_position.y] = map[find_player.x][find_player.y];
-                map[find_player.x][find_player.y - 1] = '.';
-            }
-            print_base();
-            break;
+void Game_map::set_position(Coordinates c, char new_Value){
+    map[c.x][c.y] = new_Value;
+}
+void Game_map::move_player(Cmove_direction direction, int steps){
+    Game_map::Coordinates current = find_player();
+    while (steps-- > 0){
+        Coordinates new_Position = next_position(current, direction);
+        if(!is_valid_move(new_Position)) return;
+        set_position(current, '.');
+        set_position(new_Position, 'X');
+        current = new_Position;
     }
 }
 

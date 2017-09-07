@@ -32,13 +32,15 @@ public:
     Coordinates find_player();
 
     // function that provides coordinates for new move
-    Coordinates new_position(enum Cmove_direction direction, int steps);
+    Coordinates next_position(Coordinates from, Cmove_direction direction);
 
     // function to validate move
-    bool check_move(enum Cmove_direction direction, int steps, Game_map::Coordinates current_xy, Game_map::Coordinates new_xy);
+    bool is_valid_move(Game_map::Coordinates to);
 
     // executing user move after move has been verified and its valid
-    void player_moving(enum Cmove_direction, int steps, Game_map::Coordinates current_position, Game_map::Coordinates new_position);
+    void set_position(Coordinates c, char new_value);
+
+    void move_player(Cmove_direction direction, int steps);
 
     // function to print map
     void print_base();
