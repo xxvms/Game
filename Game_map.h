@@ -23,7 +23,6 @@ public:
 
     // default constructor printing map
     Game_map();
-    void Game_victory();
 
     // variables that will be used to find location of the player on map
     struct  Coordinates  { size_t x, y; };
@@ -36,6 +35,9 @@ public:
 
     // function to validate move
     bool is_valid_move(Game_map::Coordinates to);
+
+    // function to check for victory
+    bool is_vitory(Game_map::Coordinates to);
 
     // executing user move after move has been verified and its valid
     void set_position(Coordinates c, char new_value);
