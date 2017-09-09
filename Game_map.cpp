@@ -72,7 +72,7 @@ void Game_map::print_base(){
     }
 }
 
-void Game_map::print_victory(){
+void Game_map::print_victory(bool* eng_game){
     std::cout << victory.size() << '\n';
     for (auto& line : victory){
         for (auto& c: line){
@@ -80,6 +80,8 @@ void Game_map::print_victory(){
                       rang::style::reset;
         }
         std::cout << '\n';
+        *eng_game = false;
+
     }
  }
 
@@ -134,12 +136,12 @@ bool Game_map::is_victory(const Game_map::Coordinates to){
 void Game_map::set_position(Coordinates c, char new_Value){
     map[c.x][c.y] = new_Value;
 }
-void  Game_map::move_player(Cmove_direction direction, int steps){
+void  Game_map::move_player(Cmove_direction direction, int steps,bool* end_game){
     Game_map::Coordinates current = find_player();
     while (steps-- > 0){
         Coordinates new_Position = next_position(current, direction);
         if (is_victory(new_Position))
-            return print_victory();
+            return print_victory(end_game);
         else if(!is_valid_move(new_Position))
             return;
         set_position(current, '.');

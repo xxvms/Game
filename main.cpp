@@ -45,7 +45,7 @@ int main() {
                 Cmove_direction direction_up;
                 direction_up = static_cast<Cmove_direction>(0);
                 auto steps_to_take = steps();
-                first.move_player(direction_up, steps_to_take);
+                first.move_player(direction_up, steps_to_take, pGame_over);
                 break;
             }
 
@@ -54,7 +54,7 @@ int main() {
                 Cmove_direction direction_down;
                 direction_down= static_cast<Cmove_direction>(1);
                 auto steps_to_take = steps();
-                first.move_player(direction_down, steps_to_take);
+                first.move_player(direction_down, steps_to_take, pGame_over);
                 break;
             }
 
@@ -63,7 +63,7 @@ int main() {
                 Cmove_direction direction_right;
                 direction_right = static_cast<Cmove_direction>(2);
                 auto steps_to_take = steps();
-                first.move_player(direction_right, steps_to_take);
+                first.move_player(direction_right, steps_to_take, pGame_over);
                 break;
             }
 
@@ -72,7 +72,7 @@ int main() {
                 Cmove_direction direction_left;
                 direction_left = static_cast<Cmove_direction>(3);
                 auto steps_to_take = steps();
-                first.move_player(direction_left, steps_to_take);
+                first.move_player(direction_left, steps_to_take, pGame_over);
                 break;
             }
 
@@ -83,8 +83,6 @@ int main() {
     } while (*pGame_over); //!first.print_victory() == 1);
 
     return 0;
-
-
 }
 
 

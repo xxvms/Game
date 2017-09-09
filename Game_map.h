@@ -42,11 +42,11 @@ public:
     // executing user move after move has been verified and its valid
     void set_position(Coordinates c, char new_value);
 
-    void move_player(Cmove_direction direction, int steps);
+    void move_player(Cmove_direction direction, int steps, bool* end_game);
 
     // function to print map
     void print_base();
-    void print_victory();
+    void print_victory(bool* eng_game);
 
 };
 
