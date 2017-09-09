@@ -9,8 +9,8 @@
                 "=======================================================================================================",
                 "|   X ###                   #####                      ###########                                    |",
                 "|                        ###########    ###########                                    ####           |",
-                "|    ######             ###########   #############        #        #######        #########          |",
-                "|   @#######             ###########    ###########        ###         #######        ######          |",
+                "|   @######             ###########   #############        #        #######        #########          |",
+                "|   ########             ###########    ###########        ###         #######        ######          |",
                 "|   ####                    #####         #######        ######          #######                      |",
                 "|                   #####                   ###                            ########     #######       |",
                 "|      ####         ######    ~~~~~~                ########    ######        ######       ######     |",
@@ -63,7 +63,6 @@ rang::fg get_color_for(char c){
 
 
 void Game_map::print_base(){
-    std::cout << map.size() << '\n';
     for (auto& line : map){
         for(auto& c : line) {
             std::cout << rang::style::dim << rang::bg::black << rang::fgB::green << rang::style::reset << get_color_for(c) << c <<
@@ -125,23 +124,24 @@ Game_map::Coordinates Game_map::next_position(Coordinates from, Cmove_direction 
     }
 }
 
-bool Game_map::is_valid_move(Game_map::Coordinates to) {
+bool Game_map::is_valid_move(const Game_map::Coordinates to) {
     return map[to.x][to.y] == ' ' || map[to.x][to.y] == '.';
 }
-bool Game_map::is_vitory(Game_map::Coordinates to){
+bool Game_map::is_victory(const Game_map::Coordinates to){
 
     return map[to.x][to.y] == 'X';
 }
 void Game_map::set_position(Coordinates c, char new_Value){
     map[c.x][c.y] = new_Value;
 }
-void Game_map::move_player(Cmove_direction direction, int steps){
+void  Game_map::move_player(Cmove_direction direction, int steps){
     Game_map::Coordinates current = find_player();
     while (steps-- > 0){
         Coordinates new_Position = next_position(current, direction);
-        if (is_vitory(new_Position))
+        if (is_victory(new_Position))
             return print_victory();
-        else if(!is_valid_move(new_Position)) return;
+        else if(!is_valid_move(new_Position))
+            return;
         set_position(current, '.');
         set_position(new_Position, '@');
         current = new_Position;

@@ -23,6 +23,9 @@ int steps(){
 
 };
 
+bool game_over = true;
+bool* pGame_over = &game_over;
+
 int main() {
 
     Game_map first;
@@ -77,7 +80,7 @@ int main() {
                 std::cout << "Not going :( select valid choice!" << '\n';
                 break;
         }
-    } while (true); //!first.print_victory() == 1);
+    } while (*pGame_over); //!first.print_victory() == 1);
 
     return 0;
 
